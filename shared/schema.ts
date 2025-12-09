@@ -16,3 +16,31 @@ export const insertUserSchema = createInsertSchema(users).pick({
 
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
+
+export const members = pgTable("members", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  name: text("name").notNull(),
+  email: text("email").notNull().unique(),
+  cpf: text("cpf").notNull().unique(),
+  phone: text("phone"),
+  photoUrl: text("photo_url"),
+  startDate: text("start_date").notNull(),
+  expirationDate: text("expiration_date").notNull(),
+});
+
+export const insertMemberSchema = createInsertSchema(members).omit({
+  id: true,
+});
+
+export type InsertMember = z.infer<typeof insertMemberSchema>;
+export type Member = typeof members.$inferSelect;
+
+export type MemberStatus = "ATIVO" | "EXPIRADO";
+
+export function getMemberStatus(expirationDate: string): MemberStatus {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const expDate = new Date(expirationDate);
+  expDate.setHours(0, 0, 0, 0);
+  return expDate >= today ? "ATIVO" : "EXPIRADO";
+}
