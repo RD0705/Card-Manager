@@ -38,6 +38,8 @@
   ],
   "exclude": [
     "node_modules",
-    "_legacy"
+    "_legacy",
+    "frontend-ref",
+    "temp_admin_repo"
   ]
 }
