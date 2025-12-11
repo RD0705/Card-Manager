@@ -73,6 +73,7 @@ export async function POST(req: Request) {
 
         const { error } = await supabase.from('users').upsert({
             id: id as string,
+            email: email,
             full_name: fullName || null,
             avatar_url: image_url || null,
             billing_address: {},

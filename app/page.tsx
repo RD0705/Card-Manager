@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { Shield, Heart, Users, ChevronRight, CreditCard, MapPin, Activity, Phone, Mail, CheckCircle2 } from 'lucide-react';
+import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
 
 export default function LandingPage() {
   return (
@@ -27,16 +28,26 @@ export default function LandingPage() {
             </a>
           </nav>
           <div className="flex items-center gap-3">
-            <Link href="/admin">
-              <button className="px-4 py-2 text-sm font-medium rounded-lg border border-brand-blue text-brand-blue hover:bg-brand-blue-light transition-colors">
-                Área do Admin
-              </button>
-            </Link>
-            <Link href="/sign-in">
-              <button className="px-4 py-2 text-sm font-medium rounded-lg bg-brand-orange text-white shadow-button hover:bg-brand-orange/90 transition-colors">
-                Acessar
-              </button>
-            </Link>
+            <SignedIn>
+              <Link href="/admin">
+                <button className="px-4 py-2 text-sm font-medium rounded-lg bg-brand-orange text-white shadow-button hover:bg-brand-orange/90 transition-colors">
+                  Painel
+                </button>
+              </Link>
+              <UserButton />
+            </SignedIn>
+            <SignedOut>
+              <Link href="/admin">
+                <button className="px-4 py-2 text-sm font-medium rounded-lg border border-brand-blue text-brand-blue hover:bg-brand-blue-light transition-colors">
+                  Área do Admin
+                </button>
+              </Link>
+              <Link href="/sign-in">
+                <button className="px-4 py-2 text-sm font-medium rounded-lg bg-brand-orange text-white shadow-button hover:bg-brand-orange/90 transition-colors">
+                  Acessar
+                </button>
+              </Link>
+            </SignedOut>
           </div>
         </div>
       </header>

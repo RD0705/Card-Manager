@@ -37,3 +37,60 @@ export const getUserDetails = cache(async (supabase: SupabaseClient) => {
     .single();
   return userDetails;
 });
+
+/**
+ * Get all members/users for admin dashboard
+ * Explicitly selects billing_address and payment_method JSON fields
+ */
+/**
+ * Get all members for admin dashboard
+ */
+export const getAllMembers = cache(async (supabase: SupabaseClient) => {
+  const { data: members, error } = await supabase
+    .from('members')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching members:', error);
+    return [];
+  }
+
+  return members || [];
+});
+
+/**
+ * Create a new member
+ */
+export const createMember = async (
+  supabase: SupabaseClient,
+  memberData: {
+    full_name: string;
+    email: string;
+    cpf: string;
+    phone?: string;
+    status?: string;
+    start_date?: string;
+    expiration_date?: string;
+  }
+) => {
+  const { data, error } = await supabase
+    .from('members')
+    .insert({
+      full_name: memberData.full_name,
+      email: memberData.email,
+      cpf: memberData.cpf,
+      phone: memberData.phone,
+      status: memberData.status || 'active',
+      start_date: memberData.start_date,
+      expiration_date: memberData.expiration_date
+    })
+    .select()
+    .single();
+
+  if (error) {
+    throw error;
+  }
+
+  return data;
+};

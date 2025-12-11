@@ -1,59 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
+@layer base {
+  :root {
+    --background: 210 20% 98%;
+    --foreground: 210 50% 10%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 210 50% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 50% 10%;
+
+    --primary: 210 100% 20%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 20% 96%;
+    --secondary-foreground: 210 50% 10%;
+
+    --muted: 210 20% 96%;
+    --muted-foreground: 210 10% 45%;
+
+    --accent: 24 100% 50%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+
+    --border: 210 20% 90%;
+    --input: 210 20% 90%;
+    --ring: 210 100% 20%;
+
+    --radius: 0.75rem;
+
+    /* Brand Colors */
+    --brand-blue: 210 100% 20%;
+    --brand-blue-light: 210 60% 95%;
+    --brand-blue-medium: 210 80% 40%;
+    --brand-orange: 24 100% 50%;
+    --brand-orange-light: 24 100% 95%;
+
+    /* Gradients */
+    --gradient-hero: linear-gradient(135deg, hsl(210 60% 97%) 0%, hsl(210 80% 92%) 50%, hsl(210 60% 97%) 100%);
+    --gradient-card: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(210 20% 99%) 100%);
+    --gradient-sidebar: linear-gradient(180deg, hsl(210 100% 18%) 0%, hsl(210 100% 15%) 100%);
+
+    /* Shadows */
+    --shadow-card: 0 4px 6px -1px hsl(210 100% 20% / 0.05), 0 2px 4px -2px hsl(210 100% 20% / 0.05);
+    --shadow-card-hover: 0 20px 25px -5px hsl(210 100% 20% / 0.1), 0 8px 10px -6px hsl(210 100% 20% / 0.1);
+    --shadow-button: 0 4px 14px 0 hsl(24 100% 50% / 0.35);
+
+    --sidebar-background: 210 100% 18%;
+    --sidebar-foreground: 210 20% 95%;
+    --sidebar-primary: 24 100% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 100% 25%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 210 100% 25%;
+    --sidebar-ring: 24 100% 50%;
+  }
+
+  .dark {
+    --background: 210 50% 5%;
+    --foreground: 210 20% 98%;
+
+    --card: 210 50% 8%;
+    --card-foreground: 210 20% 98%;
+
+    --popover: 210 50% 8%;
+    --popover-foreground: 210 20% 98%;
+
+    --primary: 210 80% 60%;
+    --primary-foreground: 210 50% 5%;
+
+    --secondary: 210 30% 15%;
+    --secondary-foreground: 210 20% 98%;
+
+    --muted: 210 30% 15%;
+    --muted-foreground: 210 20% 65%;
+
+    --accent: 24 100% 55%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 62% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --success: 142 76% 40%;
+    --success-foreground: 0 0% 100%;
+
+    --border: 210 30% 18%;
+    --input: 210 30% 18%;
+    --ring: 210 80% 60%;
+  }
 }
 
-*:focus:not(ol) {
-  @apply outline-none ring-2 ring-pink-500 ring-opacity-50;
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-semibold tracking-tight;
+  }
 }
 
-html {
-  height: 100%;
-  box-sizing: border-box;
-  touch-action: manipulation;
-  font-feature-settings:
-    'case' 1,
-    'rlig' 1,
-    'calt' 0;
+@layer components {
+  .hero-gradient {
+    background: var(--gradient-hero);
+  }
+
+  .card-gradient {
+    background: var(--gradient-card);
+  }
+
+  .sidebar-gradient {
+    background: var(--gradient-sidebar);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-card-hover {
+    box-shadow: var(--shadow-card-hover);
+  }
+
+  .shadow-button {
+    box-shadow: var(--shadow-button);
+  }
 }
 
-html,
-body {
-  font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Helvetica Neue',
-    'Helvetica', sans-serif;
-  text-rendering: optimizeLegibility;
-  -moz-osx-font-smoothing: grayscale;
-  @apply text-white bg-zinc-800 antialiased;
-}
+@layer utilities {
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
 
-body {
-  position: relative;
-  min-height: 100%;
-  margin: 0;
-}
+  .animate-pulse-slow {
+    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
 
-a {
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
+  .animate-fade-up {
+    animation: fadeUp 0.6s ease-out forwards;
+  }
 
-p a {
-  @apply hover:underline;
-}
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+  }
 
-.animated {
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
+  .animate-scale-in {
+    animation: scaleIn 0.3s ease-out forwards;
+  }
 
-.height-screen-helper {
-  min-height: calc(100vh - 80px);
+  @keyframes float {
+
+    0%,
+    100% {
+      transform: translateY(0px);
+    }
+
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
 }

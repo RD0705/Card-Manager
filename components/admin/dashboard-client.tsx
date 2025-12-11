@@ -3,9 +3,11 @@
 import { useState, useMemo } from "react";
 import { Button } from "@/components/admin-ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/admin-ui/card";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/admin-ui/dialog";
+import { Input } from "@/components/admin-ui/input";
+import { Label } from "@/components/admin-ui/label";
 import { MembersTable } from "@/components/admin/members-table";
 import { FilterButtons, type FilterStatus } from "@/components/admin/filter-buttons";
-// import { ThemeToggle } from "@/components/admin-ui/theme-toggle"; 
 import {
     CreditCard,
     LogOut,
@@ -13,20 +15,30 @@ import {
     CheckCircle,
     XCircle,
     LayoutDashboard,
+    UserPlus,
 } from "lucide-react";
 import type { Member } from "@/components/admin/schema";
 import { getMemberStatus } from "@/components/admin/schema";
 import { useRouter } from "next/navigation";
+import { createClient } from "@supabase/supabase-js";
 
-// Mock ThemeToggle if it doesn't exist
-function MockThemeToggle() {
-    return null; // Or implement if needed
-}
-
-export default function DashboardClient({ members }: { members: Member[] }) {
+export default function DashboardClient({ members: initialMembers }: { members: Member[] }) {
     const router = useRouter();
     const [activeFilter, setActiveFilter] = useState<FilterStatus>("all");
-    const isLoading = false; // Data is pre-fetched
+    const [members, setMembers] = useState<Member[]>(initialMembers);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const isLoading = false;
+
+    // Form state
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        cpf: "",
+        phone: "",
+        startDate: new Date().toISOString().split('T')[0],
+        expirationDate: "",
+    });
 
     const counts = useMemo(() => {
         const active = members.filter((m) => getMemberStatus(m.expirationDate) === "ATIVO").length;
@@ -47,8 +59,74 @@ export default function DashboardClient({ members }: { members: Member[] }) {
     }, [members, activeFilter]);
 
     const handleLogout = async () => {
-        // Implement logout logic if needed, or redirect to home
         router.push("/");
+    };
+
+    const handleCreateMember = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setIsSubmitting(true);
+
+        try {
+            // Create Supabase client with service role key
+            const supabase = createClient(
+                process.env.NEXT_PUBLIC_SUPABASE_URL!,
+                process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+            );
+
+            // Insert into members table
+            const { data, error } = await supabase
+                .from('members')
+                .insert({
+                    full_name: formData.name,
+                    email: formData.email,
+                    cpf: formData.cpf,
+                    phone: formData.phone,
+                    start_date: formData.startDate,
+                    expiration_date: formData.expirationDate,
+                    status: 'active'
+                })
+                .select()
+                .single();
+
+            if (error) {
+                console.error('Error creating member:', error);
+                alert('Erro ao criar associado. Verifique o console.');
+                return;
+            }
+
+            // Add to local state (optimistic) or rely on refresh
+            const newMember: Member = {
+                id: data.id,
+                name: data.full_name,
+                email: data.email,
+                cpf: data.cpf,
+                phone: data.phone,
+                startDate: data.start_date,
+                expirationDate: data.expiration_date,
+                photoUrl: ""
+            };
+
+            setMembers([...members, newMember]);
+
+            // Reset form
+            setFormData({
+                name: "",
+                email: "",
+                cpf: "",
+                phone: "",
+                startDate: new Date().toISOString().split('T')[0],
+                expirationDate: "",
+            });
+
+            setIsDialogOpen(false);
+            alert('Associado criado com sucesso!');
+            router.refresh();
+        } catch (error) {
+            console.error('Error:', error);
+            alert('Erro ao criar associado.');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -63,7 +141,109 @@ export default function DashboardClient({ members }: { members: Member[] }) {
                     </div>
 
                     <div className="flex items-center gap-2">
-                        {/* <ThemeToggle /> Use standard if available, else skip */}
+                        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                            <DialogTrigger asChild>
+                                <Button variant="default" size="sm" className="gap-2">
+                                    <UserPlus className="w-4 h-4" />
+                                    <span className="hidden sm:inline">Novo Associado</span>
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent className="sm:max-w-[500px]">
+                                <DialogHeader>
+                                    <DialogTitle>Cadastrar Novo Associado</DialogTitle>
+                                    <DialogDescription>
+                                        Preencha os dados do novo associado abaixo.
+                                    </DialogDescription>
+                                </DialogHeader>
+                                <form onSubmit={handleCreateMember} className="space-y-4">
+                                    <div className="space-y-2">
+                                        <Label htmlFor="name">Nome Completo *</Label>
+                                        <Input
+                                            id="name"
+                                            required
+                                            value={formData.name}
+                                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                            placeholder="João da Silva"
+                                        />
+                                    </div>
+
+                                    <div className="space-y-2">
+                                        <Label htmlFor="email">Email *</Label>
+                                        <Input
+                                            id="email"
+                                            type="email"
+                                            required
+                                            value={formData.email}
+                                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                            placeholder="joao@exemplo.com"
+                                        />
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="cpf">CPF *</Label>
+                                            <Input
+                                                id="cpf"
+                                                required
+                                                value={formData.cpf}
+                                                onChange={(e) => setFormData({ ...formData, cpf: e.target.value })}
+                                                placeholder="000.000.000-00"
+                                                maxLength={14}
+                                            />
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <Label htmlFor="phone">Telefone</Label>
+                                            <Input
+                                                id="phone"
+                                                value={formData.phone}
+                                                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                                placeholder="(00) 00000-0000"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="startDate">Data de Início *</Label>
+                                            <Input
+                                                id="startDate"
+                                                type="date"
+                                                required
+                                                value={formData.startDate}
+                                                onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+                                            />
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <Label htmlFor="expirationDate">Data de Vencimento *</Label>
+                                            <Input
+                                                id="expirationDate"
+                                                type="date"
+                                                required
+                                                value={formData.expirationDate}
+                                                onChange={(e) => setFormData({ ...formData, expirationDate: e.target.value })}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="flex justify-end gap-2 pt-4">
+                                        <Button
+                                            type="button"
+                                            variant="outline"
+                                            onClick={() => setIsDialogOpen(false)}
+                                            disabled={isSubmitting}
+                                        >
+                                            Cancelar
+                                        </Button>
+                                        <Button type="submit" disabled={isSubmitting}>
+                                            {isSubmitting ? "Cadastrando..." : "Cadastrar"}
+                                        </Button>
+                                    </div>
+                                </form>
+                            </DialogContent>
+                        </Dialog>
+
                         <Button
                             variant="ghost"
                             size="sm"
