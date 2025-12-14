@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { Shield, Heart, Users, ChevronRight, CreditCard, MapPin, Activity, Phone, Mail, CheckCircle2 } from 'lucide-react';
 import { SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
+import Pricing from '@/components/ui/Pricing/Pricing';
 
 export default function LandingPage() {
   return (
@@ -20,9 +21,9 @@ export default function LandingPage() {
             <a href="#servicos" className="text-muted-foreground hover:text-brand-blue transition-colors font-medium">
               Serviços
             </a>
-            <a href="#sobre" className="text-muted-foreground hover:text-brand-blue transition-colors font-medium">
+            <Link href="/sobre" className="text-muted-foreground hover:text-brand-blue transition-colors font-medium">
               Sobre Nós
-            </a>
+            </Link>
             <a href="#contato" className="text-muted-foreground hover:text-brand-blue transition-colors font-medium">
               Contato
             </a>
@@ -83,9 +84,9 @@ export default function LandingPage() {
                     <ChevronRight className="w-5 h-5" />
                   </button>
                 </Link>
-                <button className="px-8 py-4 text-lg font-semibold rounded-xl border-2 border-brand-blue text-brand-blue hover:bg-brand-blue-light transition-colors">
+                <a href="#planos" className="px-8 py-4 text-lg font-semibold rounded-xl border-2 border-brand-blue text-brand-blue hover:bg-brand-blue-light transition-colors flex items-center justify-center">
                   Conhecer Serviços
-                </button>
+                </a>
               </div>
 
               <div className="flex items-center gap-8 mt-10">
@@ -228,6 +229,9 @@ export default function LandingPage() {
           </div>
         </div>
       </section>
+
+      {/* Pricing Section */}
+      <Pricing />
 
       {/* CTA Section */}
       <section className="py-20 bg-card">

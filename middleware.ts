@@ -7,6 +7,7 @@ export default clerkMiddleware(async (auth, req) => {
   const { userId, redirectToSignIn } = await auth();
 
   // Protect Admin routes
+  // Protect Admin routes
   if (isAdminRoute(req) && !userId) {
     return redirectToSignIn();
   }

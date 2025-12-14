@@ -46,8 +46,9 @@ export default async function AdminPage() {
         const sub = subscriptions?.find((s: any) => s.user_id === user.id);
 
         // Determine dates based on subscription or creation
-        const startDate = sub ? (sub.current_period_start || sub.created) : user.created;
-        const expirationDate = sub ? sub.current_period_end : new Date(new Date(user.created).getTime() + 1000 * 60 * 60 * 24 * 30).toISOString(); // Default +30 days trial/pending
+        const startDate = sub ? (sub.current_period_start || sub.created_at || sub.created) : (user.created_at || user.created || new Date().toISOString());
+        const createdDate = user.created_at || user.created || new Date().toISOString();
+        const expirationDate = sub ? sub.current_period_end : new Date(new Date(createdDate).getTime() + 1000 * 60 * 60 * 24 * 30).toISOString(); // Default +30 days trial/pending
 
         // CPF extraction
         const cpf = user.billing_address?.cpf || '000.000.000-00';
