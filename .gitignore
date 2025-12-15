@@ -3,3 +3,4 @@ https://stackblitz.com/storage/blobs/eyJfcmFpbHMiOnsiZGF0YSI6ODMxMDMwODcsInB1ciI
 
 # clerk configuration (can include secrets)
 /.clerk/
+reference_ui/

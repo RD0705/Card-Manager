@@ -1,0 +1,11 @@
+const CHUNK_PUBLIC_PATH = "server/app/minha-area/page.js";
+const runtime = require("../../chunks/ssr/[turbopack]_runtime.js");
+runtime.loadChunk("server/chunks/ssr/node_modules_next_f8b00c._.js");
+runtime.loadChunk("server/chunks/ssr/_c81f57._.js");
+runtime.loadChunk("server/chunks/ssr/node_modules_@clerk_shared_dist_runtime_ada618._.js");
+runtime.loadChunk("server/chunks/ssr/node_modules_@clerk_backend_dist_51fe42._.js");
+runtime.loadChunk("server/chunks/ssr/node_modules_cookie_dist_index_8c41c9.js");
+runtime.loadChunk("server/chunks/ssr/_1b42a2._.js");
+runtime.loadChunk("server/chunks/ssr/node_modules_a1c882._.js");
+runtime.getOrInstantiateRuntimeModule("[project]/.next-internal/server/app/minha-area/page/actions.js { ACTIONS_MODULE0 => \"[project]/node_modules/@clerk/nextjs/dist/esm/app-router/server-actions.js [app-rsc] (ecmascript, action, ecmascript)\", ACTIONS_MODULE1 => \"[project]/node_modules/@clerk/nextjs/dist/esm/app-router/keyless-actions.js [app-rsc] (ecmascript)\", ACTIONS_MODULE2 => \"[project]/node_modules/@clerk/nextjs/dist/esm/server/keyless-custom-headers.js [app-rsc] (ecmascript)\" } [app-rsc] (ecmascript)", CHUNK_PUBLIC_PATH);
+module.exports = runtime.getOrInstantiateRuntimeModule("[project]/node_modules/next/dist/esm/build/templates/app-page.js?page=/minha-area/page { COMPONENT_0 => \"[project]/app/layout.tsx [app-rsc] (ecmascript, Next.js server component)\", COMPONENT_1 => \"[project]/app/error.tsx [app-rsc] (ecmascript, Next.js server component)\", COMPONENT_2 => \"[project]/app/not-found.tsx [app-rsc] (ecmascript, Next.js server component)\", COMPONENT_3 => \"[project]/app/minha-area/page.tsx [app-rsc] (ecmascript, Next.js server component)\", METADATA_4 => \"[project]/app/opengraph-image.png.mjs { IMAGE => \\\"[project]/app/opengraph-image.png [app-rsc] (static)\\\" } [app-rsc] (structured image object, ecmascript)\" } [app-rsc] (ecmascript) <facade>", CHUNK_PUBLIC_PATH).exports;
