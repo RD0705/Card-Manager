@@ -94,3 +94,21 @@ export const createMember = async (
 
   return data;
 };
+
+/**
+ * Get a member by their email address
+ */
+export const getMemberByEmail = cache(async (supabase: SupabaseClient, email: string) => {
+  const { data: member, error } = await supabase
+    .from('members')
+    .select('*')
+    .eq('email', email)
+    .maybeSingle();
+
+  if (error) {
+    console.error('Error fetching member by email:', error);
+    return null;
+  }
+
+  return member;
+});

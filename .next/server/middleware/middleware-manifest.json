@@ -3,15 +3,15 @@
   "middleware": {
     "/": {
       "files": [
-        "server/edge/chunks/ssr/_3f865b._.js",
-        "server/edge/chunks/ssr/node_modules_@clerk_shared_dist_runtime_6902f8._.js",
-        "server/edge/chunks/ssr/node_modules_@clerk_backend_dist_0d6abc._.js",
-        "server/edge/chunks/ssr/node_modules_react_9d5f17._.js",
-        "server/edge/chunks/ssr/node_modules_@clerk_nextjs_dist_esm_75db13._.js",
-        "server/edge/chunks/ssr/node_modules_584aff._.js",
+        "server/edge/chunks/ssr/_16d57b._.js",
+        "server/edge/chunks/ssr/6d304_@clerk_shared_dist_runtime_b0e43a._.js",
+        "server/edge/chunks/ssr/96259_@clerk_backend_dist_d058dc._.js",
+        "server/edge/chunks/ssr/34e2e_react_4e4194._.js",
+        "server/edge/chunks/ssr/2b625_@clerk_nextjs_dist_esm_ee9c3f._.js",
+        "server/edge/chunks/ssr/node_modules__pnpm_5ff3c4._.js",
         "server/edge/chunks/ssr/middleware_ts_8a0420._.js",
-        "server/edge/chunks/ssr/edge-wrapper_7e6160.js",
-        "server/edge/chunks/ssr/edge-wrapper_23d662.js"
+        "server/edge/chunks/ssr/edge-wrapper_d626b1.js",
+        "server/edge/chunks/ssr/edge-wrapper_0adc2c.js"
       ],
       "name": "middleware",
       "page": "/",
@@ -27,10 +27,10 @@
       ],
       "env": {
         "__NEXT_BUILD_ID": "development",
-        "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY": "bGGRtWEasAbjY7AlQofnMcj79O2SL/o1p/xB/EkBYg4=",
-        "__NEXT_PREVIEW_MODE_ID": "f2525363a1c67bbdcab1a48b66c0581b",
-        "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "ca981c2d11d8044595be5c904cc88c074e7794b3e701264a78688cd7875f63a4",
-        "__NEXT_PREVIEW_MODE_SIGNING_KEY": "70850e19093d5f90cb173fbb31c075113f0f967a7f5630590c0108c8ac482be2"
+        "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY": "EqWZ4f5HyqL7bvUWmN9+0SsLiKbrErcN82HU+LlCE+I=",
+        "__NEXT_PREVIEW_MODE_ID": "5c358d98ae32ed1bab4bcd3dd277986c",
+        "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "ce4095fdec0b7dee5f1fde02ef77f3f38ef19fe47b0fca816d9805bf8acd2a32",
+        "__NEXT_PREVIEW_MODE_SIGNING_KEY": "c18d288279f0746122bbc8d533f4ce5a7276532456bfaa483fb42211b92e07bc"
       }
     }
   },

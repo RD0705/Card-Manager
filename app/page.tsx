@@ -155,7 +155,7 @@ export default function LandingPage() {
 
           <div className="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
             {/* Card 1 */}
-            <div className="group bg-card card-gradient rounded-2xl p-8 border border-border shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1">
+            <Link href="/minha-area" className="group bg-card card-gradient rounded-2xl p-8 border border-border shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1 block">
               <div className="w-14 h-14 rounded-xl bg-brand-blue-light flex items-center justify-center mb-6 group-hover:bg-brand-blue transition-colors duration-300">
                 <CreditCard className="w-7 h-7 text-brand-blue group-hover:text-primary-foreground transition-colors duration-300" />
               </div>
@@ -165,13 +165,13 @@ export default function LandingPage() {
               <p className="text-muted-foreground mb-6">
                 Acesse sua carteirinha digital a qualquer momento, sem necessidade de impressão.
               </p>
-              <button className="text-brand-orange hover:text-brand-orange p-0 h-auto font-semibold flex items-center">
+              <span className="text-brand-orange hover:text-brand-orange p-0 h-auto font-semibold flex items-center">
                 Acessar <ChevronRight className="w-4 h-4 ml-1" />
-              </button>
-            </div>
+              </span>
+            </Link>
 
             {/* Card 2 */}
-            <div className="group bg-card card-gradient rounded-2xl p-8 border border-border shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1">
+            <Link href="/rede-credenciada" className="group bg-card card-gradient rounded-2xl p-8 border border-border shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1 block">
               <div className="w-14 h-14 rounded-xl bg-brand-orange-light flex items-center justify-center mb-6 group-hover:bg-brand-orange transition-colors duration-300">
                 <MapPin className="w-7 h-7 text-brand-orange group-hover:text-accent-foreground transition-colors duration-300" />
               </div>
@@ -181,13 +181,13 @@ export default function LandingPage() {
               <p className="text-muted-foreground mb-6">
                 Encontre hospitais, clínicas e laboratórios próximos de você em nossa rede.
               </p>
-              <button className="text-brand-orange hover:text-brand-orange p-0 h-auto font-semibold flex items-center">
+              <span className="text-brand-orange hover:text-brand-orange p-0 h-auto font-semibold flex items-center">
                 Buscar <ChevronRight className="w-4 h-4 ml-1" />
-              </button>
-            </div>
+              </span>
+            </Link>
 
             {/* Card 3 */}
-            <div className="group bg-card card-gradient rounded-2xl p-8 border border-border shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1">
+            <Link href="/assinatura" className="group bg-card card-gradient rounded-2xl p-8 border border-border shadow-card hover:shadow-card-hover transition-all duration-300 hover:-translate-y-1 block">
               <div className="w-14 h-14 rounded-xl bg-success/10 flex items-center justify-center mb-6 group-hover:bg-success transition-colors duration-300">
                 <Activity className="w-7 h-7 text-success group-hover:text-success-foreground transition-colors duration-300" />
               </div>
@@ -197,10 +197,10 @@ export default function LandingPage() {
               <p className="text-muted-foreground mb-6">
                 Verifique o status da sua assinatura e mantenha seus benefícios em dia.
               </p>
-              <button className="text-brand-orange hover:text-brand-orange p-0 h-auto font-semibold flex items-center">
+              <span className="text-brand-orange hover:text-brand-orange p-0 h-auto font-semibold flex items-center">
                 Verificar <ChevronRight className="w-4 h-4 ml-1" />
-              </button>
-            </div>
+              </span>
+            </Link>
           </div>
         </div>
       </section>

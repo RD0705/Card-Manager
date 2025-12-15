@@ -1,6 +1,6 @@
 {
   "/page": "app/page.js",
   "/minha-area/page": "app/minha-area/page.js",
-  "/checkout/page": "app/checkout/page.js",
-  "/sobre/page": "app/sobre/page.js"
+  "/assinatura/page": "app/assinatura/page.js",
+  "/sign-in/[[...sign-in]]/page": "app/sign-in/[[...sign-in]]/page.js"
 }

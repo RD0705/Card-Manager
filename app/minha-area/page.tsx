@@ -1,23 +1,126 @@
-'use client';
-
-import { Shield, Download, Wallet, User, Calendar, CreditCard, ChevronLeft, QrCode, Check, FileText, Users, BadgeCheck, Clock, MapPin, Stethoscope, MessageCircle } from "lucide-react";
+import { currentUser } from '@clerk/nextjs/server';
+import { createClient } from '@/utils/supabase/server';
+import { getMemberByEmail } from '@/utils/supabase/queries';
+import Link from 'next/link';
+import { Shield, Download, Wallet, User, Calendar, CreditCard, ChevronLeft, QrCode, Check, FileText, Users, BadgeCheck, Clock, MapPin, Stethoscope, MessageCircle, LogIn, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import Link from "next/link";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import WhatsAppButton from './whatsapp-button';
 
-const MinhaArea = () => {
+export default async function MinhaAreaPage() {
+  const user = await currentUser();
+
+  // Not logged in state
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <Card className="w-full max-w-md shadow-card border-border">
+          <CardContent className="pt-8 pb-8 text-center">
+            <div className="w-16 h-16 rounded-full bg-brand-blue-light flex items-center justify-center mx-auto mb-6">
+              <LogIn className="w-8 h-8 text-brand-blue" />
+            </div>
+            <h1 className="text-2xl font-bold text-foreground mb-2">
+              Acesso Restrito
+            </h1>
+            <p className="text-muted-foreground mb-6">
+              Faça login para acessar sua área do associado.
+            </p>
+            <Link href="/sign-in">
+              <Button className="w-full bg-brand-blue hover:bg-brand-blue/90 text-white" size="lg">
+                Fazer Login
+              </Button>
+            </Link>
+            <Link href="/" className="inline-flex items-center gap-1 text-muted-foreground hover:text-brand-blue transition-colors mt-4 text-sm">
+              <ChevronLeft className="w-4 h-4" />
+              Voltar ao início
+            </Link>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Get user email
+  const email = user.emailAddresses[0]?.emailAddress;
+  const firstName = user.firstName || 'Usuário';
+
+  if (!email) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <Card className="w-full max-w-md shadow-card border-border">
+          <CardContent className="pt-8 pb-8 text-center">
+            <div className="w-16 h-16 rounded-full bg-destructive/10 flex items-center justify-center mx-auto mb-6">
+              <AlertCircle className="w-8 h-8 text-destructive" />
+            </div>
+            <h1 className="text-2xl font-bold text-foreground mb-2">
+              E-mail não encontrado
+            </h1>
+            <p className="text-muted-foreground mb-6">
+              Não foi possível identificar seu e-mail. Entre em contato com o suporte.
+            </p>
+            <Link href="/">
+              <Button variant="outline" className="w-full" size="lg">
+                Voltar ao início
+              </Button>
+            </Link>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Fetch member data
+  const supabase = createClient();
+  const member = await getMemberByEmail(supabase, email);
+
+  // Member not found state
+  if (!member) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center p-4">
+        <Card className="w-full max-w-md shadow-card border-border">
+          <CardContent className="pt-8 pb-8 text-center">
+            <div className="w-16 h-16 rounded-full bg-brand-orange-light flex items-center justify-center mx-auto mb-6">
+              <AlertCircle className="w-8 h-8 text-brand-orange" />
+            </div>
+            <h1 className="text-2xl font-bold text-foreground mb-2">
+              Associação não encontrada
+            </h1>
+            <p className="text-muted-foreground mb-6">
+              Não encontramos uma associação vinculada ao seu e-mail ({email}). Entre em contato com o suporte para mais informações.
+            </p>
+            <Link href="/">
+              <Button variant="outline" className="w-full" size="lg">
+                Voltar ao início
+              </Button>
+            </Link>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
+
+  // Format validity date
+  const formatDate = (dateString: string | null) => {
+    if (!dateString) return 'N/A';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('pt-BR', { month: '2-digit', year: 'numeric' });
+  };
+
+  // Generate member ID
+  const memberId = `CB-${new Date(member.created_at).getFullYear()}-${String(member.id).padStart(6, '0')}`;
+
+  // User data from database
   const userData = {
-    name: "João Carlos da Silva",
-    cpf: "***.***.***-00",
-    plan: "Plano Ouro",
-    planType: "Premium",
-    cardNumber: "4532 •••• •••• 8976",
-    validity: "12/2026",
-    memberId: "CB-2024-001234",
+    name: member.full_name || 'Nome não informado',
+    cpf: member.cpf ? `***.***.${member.cpf.slice(-5)}` : '***.***.***-**',
+    plan: member.plan || 'Plano Standard',
+    planType: 'Premium',
+    validity: formatDate(member.expiration_date),
+    memberId: memberId,
     dependents: 0,
-    status: "Ativo",
+    status: member.status === 'active' ? 'Ativo' : 'Inativo',
   };
 
   const benefits = [
@@ -27,52 +130,16 @@ const MinhaArea = () => {
     "Descontos em Farmácias",
   ];
 
-  const consultationHistory = [
-    {
-      id: 1,
-      specialty: "Clínica Geral",
-      doctor: "Dr. Roberto Mendes",
-      clinic: "Clínica São Lucas",
-      date: "15/11/2024",
-      time: "09:30",
-      status: "Realizada",
-    },
-    {
-      id: 2,
-      specialty: "Cardiologia",
-      doctor: "Dra. Ana Paula Santos",
-      clinic: "Hospital Central",
-      date: "28/10/2024",
-      time: "14:00",
-      status: "Realizada",
-    },
-    {
-      id: 3,
-      specialty: "Dermatologia",
-      doctor: "Dr. Carlos Eduardo",
-      clinic: "Centro Médico Vida",
-      date: "10/10/2024",
-      time: "11:15",
-      status: "Realizada",
-    },
-    {
-      id: 4,
-      specialty: "Oftalmologia",
-      doctor: "Dra. Maria Clara",
-      clinic: "Clínica Visão",
-      date: "05/09/2024",
-      time: "16:45",
-      status: "Realizada",
-    },
-  ];
-
-  const whatsappNumber = "5511999999999";
-  const whatsappMessage = "Olá! Preciso de ajuda com meu plano CheckUp Benefícios.";
-
-  const handleWhatsAppClick = () => {
-    const url = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
-    window.open(url, '_blank');
-  };
+  // Mock consultation history for now (can be fetched from DB later)
+  const consultationHistory: Array<{
+    id: number;
+    specialty: string;
+    doctor: string;
+    clinic: string;
+    date: string;
+    time: string;
+    status: string;
+  }> = [];
 
   return (
     <div className="min-h-screen bg-background">
@@ -95,7 +162,7 @@ const MinhaArea = () => {
               Assinatura
             </Link>
           </nav>
-          <Button variant="brand-outline" size="sm">
+          <Button variant="outline" size="sm" className="border-brand-blue text-brand-blue hover:bg-brand-blue/10">
             Sair
           </Button>
         </div>
@@ -114,20 +181,13 @@ const MinhaArea = () => {
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
             <div>
               <h1 className="text-3xl md:text-4xl font-bold text-brand-blue mb-2">
-                Olá, {userData.name.split(' ')[0]}!
+                Olá, {firstName}!
               </h1>
               <p className="text-muted-foreground">
                 Gerencie sua carteirinha, consultas e entre em contato conosco
               </p>
             </div>
-            <Button 
-              onClick={handleWhatsAppClick}
-              className="bg-[#25D366] hover:bg-[#20BD5A] text-white gap-2 hidden md:flex"
-              size="lg"
-            >
-              <MessageCircle className="w-5 h-5" />
-              Falar no WhatsApp
-            </Button>
+            <WhatsAppButton />
           </div>
 
           <Tabs defaultValue="carteirinha" className="space-y-8">
@@ -222,7 +282,7 @@ const MinhaArea = () => {
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
-                <Button variant="cta" size="lg" className="flex-1 gap-2">
+                <Button className="flex-1 gap-2 bg-brand-orange hover:bg-brand-orange/90 text-white" size="lg">
                   <Download className="w-5 h-5" />
                   Baixar PDF
                 </Button>
@@ -248,7 +308,7 @@ const MinhaArea = () => {
                         <BadgeCheck className="w-4 h-4" />
                         <span className="text-sm">Status</span>
                       </div>
-                      <Badge className="bg-success/10 text-success border-success/20 hover:bg-success/20">
+                      <Badge className={`${userData.status === 'Ativo' ? 'bg-success/10 text-success border-success/20' : 'bg-destructive/10 text-destructive border-destructive/20'} hover:bg-success/20`}>
                         {userData.status}
                       </Badge>
                     </div>
@@ -312,10 +372,9 @@ const MinhaArea = () => {
                             {Array.from({ length: 49 }).map((_, i) => (
                               <div
                                 key={i}
-                                className={`rounded-sm ${
-                                  [0,1,2,4,5,6,7,13,14,20,21,27,28,34,35,41,42,43,44,45,46,47,48].includes(i) ? 'bg-foreground' : 
-                                  Math.random() > 0.6 ? 'bg-foreground' : 'bg-transparent'
-                                }`}
+                                className={`rounded-sm ${[0, 1, 2, 4, 5, 6, 7, 13, 14, 20, 21, 27, 28, 34, 35, 41, 42, 43, 44, 45, 46, 47, 48].includes(i) ? 'bg-foreground' :
+                                    i % 3 === 0 ? 'bg-foreground' : 'bg-transparent'
+                                  }`}
                               />
                             ))}
                           </div>
@@ -409,20 +468,8 @@ const MinhaArea = () => {
               )}
             </TabsContent>
           </Tabs>
-
-          <div className="fixed bottom-6 right-6 md:hidden">
-            <Button 
-              onClick={handleWhatsAppClick}
-              className="bg-[#25D366] hover:bg-[#20BD5A] text-white w-14 h-14 rounded-full shadow-lg"
-              size="icon"
-            >
-              <MessageCircle className="w-6 h-6" />
-            </Button>
-          </div>
         </div>
       </main>
     </div>
   );
-};
-
-export default MinhaArea;
+}

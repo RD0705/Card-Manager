@@ -1,6 +1,35 @@
-https://stackblitz.com/storage/blobs/eyJfcmFpbHMiOnsiZGF0YSI6ODMxMDMwODcsInB1ciI6ImJsb2JfaWQifX0=--a78640b1132d77e269eb339498809f1a41dff16a//.gitignore
+# dependencies
+/node_modules
+/.pnpm-store
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+.vscode/
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# local env files
+.env*.local
 .env
 
-# clerk configuration (can include secrets)
+# clerk
 /.clerk/
+
+# temporary
+temp_ui_repo/
 reference_ui/
+pnpm-workspace.yaml
