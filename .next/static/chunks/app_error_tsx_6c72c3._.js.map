@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 5, "column": 0}, "map": {"version":3,"sources":["/turbopack/[project]/app/error.tsx"],"sourcesContent":["'use client';\n\nexport default function Error({\n    error,\n    reset,\n}: {\n    error: Error & { digest?: string };\n    reset: () => void;\n}) {\n    return (\n        <div className=\"flex flex-col items-center justify-center min-h-screen p-4 bg-background text-foreground\">\n            <h2 className=\"text-2xl font-bold mb-4\">Algo deu errado!</h2>\n            <p className=\"text-muted-foreground mb-6\">\n                Não conseguimos carregar esta página.\n            </p>\n            <button\n                onClick={() => reset()}\n                className=\"px-4 py-2 bg-brand-blue text-white rounded-md hover:bg-brand-blue/90\"\n            >\n                Tentar novamente\n            </button>\n        </div>\n    );\n}\n"],"names":[],"mappings":";;;;;AAAA;;AAEe,SAAS,MAAM,EAC1B,KAAK,EACL,KAAK,EAIR;IACG,qBACI,6LAAC;QAAI,WAAU;;0BACX,6LAAC;gBAAG,WAAU;0BAA0B;;;;;;0BACxC,6LAAC;gBAAE,WAAU;0BAA6B;;;;;;0BAG1C,6LAAC;gBACG,SAAS,IAAM;gBACf,WAAU;0BACb;;;;;;;;;;;;AAKb;KArBwB"}},
+    {"offset": {"line": 51, "column": 0}, "map": {"version":3,"sources":[],"names":[],"mappings":"A"}}]
+}
