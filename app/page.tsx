@@ -78,7 +78,7 @@ export default function LandingPage() {
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/checkout">
+                <Link href="/minha-area">
                   <button className="px-8 py-4 text-lg font-bold rounded-xl bg-brand-orange text-white shadow-button hover:shadow-lg transition-all duration-300 flex items-center gap-2">
                     Acessar Carteirinha
                     <ChevronRight className="w-5 h-5" />
@@ -243,7 +243,7 @@ export default function LandingPage() {
             <p className="text-muted-foreground mb-8 max-w-xl mx-auto">
               Acesse sua conta e aproveite todos os benefícios da nossa plataforma digital de saúde.
             </p>
-            <Link href="/sign-in">
+            <Link href="/minha-area">
               <button className="px-8 py-4 text-lg font-bold rounded-xl bg-brand-orange text-white shadow-button hover:shadow-lg transition-all duration-300 flex items-center gap-2 mx-auto">
                 Acessar Minha Conta
                 <ChevronRight className="w-5 h-5" />
@@ -271,9 +271,9 @@ export default function LandingPage() {
             <div>
               <h4 className="font-semibold mb-4">Links Rápidos</h4>
               <ul className="space-y-2 text-sm text-primary-foreground/70">
-                <li><Link href="#" className="hover:text-primary-foreground transition-colors">Carteirinha</Link></li>
+                <li><Link href="/minha-area" className="hover:text-primary-foreground transition-colors">Carteirinha</Link></li>
                 <li><Link href="#" className="hover:text-primary-foreground transition-colors">Rede Credenciada</Link></li>
-                <li><Link href="/sign-in" className="hover:text-primary-foreground transition-colors">Minha Conta</Link></li>
+                <li><Link href="/minha-area" className="hover:text-primary-foreground transition-colors">Minha Conta</Link></li>
               </ul>
             </div>
             <div>

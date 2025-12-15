@@ -1,4 +1,5 @@
 {
   "/page": "app/page.js",
-  "/minha-area/page": "app/minha-area/page.js"
+  "/minha-area/page": "app/minha-area/page.js",
+  "/checkout/page": "app/checkout/page.js"
 }
