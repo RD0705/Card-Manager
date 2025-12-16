@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import WhatsAppButton from './whatsapp-button';
+import { QRCodeDisplay } from "@/components/ui/qr-code-display";
 
 export default async function MinhaAreaPage() {
   const user = await currentUser();
@@ -147,11 +148,11 @@ export default async function MinhaAreaPage() {
       <header className="fixed top-0 left-0 right-0 z-50 bg-card/80 backdrop-blur-lg border-b border-border">
         <div className="container mx-auto px-4 h-16 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2">
-            <Image 
-              src="/logo.png" 
-              alt="CheckUp Benefícios" 
-              width={40} 
-              height={40} 
+            <Image
+              src="/logo.png"
+              alt="CheckUp Benefícios"
+              width={40}
+              height={40}
               className="rounded-xl"
             />
             <span className="text-xl font-bold text-brand-blue">CheckUp Benefícios</span>
@@ -371,20 +372,7 @@ export default async function MinhaAreaPage() {
                   </CardHeader>
                   <CardContent className="space-y-6">
                     <div className="flex flex-col items-center">
-                      <div className="w-32 h-32 bg-foreground rounded-xl flex items-center justify-center mb-3">
-                        <div className="w-28 h-28 bg-background rounded-lg p-2">
-                          <div className="w-full h-full grid grid-cols-7 gap-0.5">
-                            {Array.from({ length: 49 }).map((_, i) => (
-                              <div
-                                key={i}
-                                className={`rounded-sm ${[0, 1, 2, 4, 5, 6, 7, 13, 14, 20, 21, 27, 28, 34, 35, 41, 42, 43, 44, 45, 46, 47, 48].includes(i) ? 'bg-foreground' :
-                                    i % 3 === 0 ? 'bg-foreground' : 'bg-transparent'
-                                  }`}
-                              />
-                            ))}
-                          </div>
-                        </div>
-                      </div>
+                      <QRCodeDisplay value={member?.id ? String(member.id) : "erro"} size={128} className="mb-3" />
                       <p className="text-xs text-muted-foreground text-center">
                         Apresente este código na recepção
                       </p>

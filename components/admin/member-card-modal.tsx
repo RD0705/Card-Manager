@@ -4,6 +4,7 @@ import { StatusBadge } from "@/components/admin/status-badge";
 import { Calendar, CreditCard, User } from "lucide-react";
 import type { Member, MemberStatus } from "@/components/admin/schema";
 import { getMemberStatus } from "@/components/admin/schema";
+import { QRCodeDisplay } from "@/components/ui/qr-code-display";
 
 interface MemberCardModalProps {
     member: Member | null;
@@ -117,20 +118,7 @@ export function MemberCardModal({ member, open, onOpenChange }: MemberCardModalP
                                         </p>
                                     </div>
 
-                                    <div className="w-20 h-20 bg-white rounded-lg p-1 flex flex-col items-center justify-center">
-                                        <div className="w-full h-full bg-gradient-to-br from-gray-200 to-gray-400 rounded flex items-center justify-center">
-                                            <div className="grid grid-cols-5 gap-0.5 p-1">
-                                                {Array.from({ length: 25 }).map((_, i) => (
-                                                    <div
-                                                        key={i}
-                                                        className={`w-2 h-2 ${Math.random() > 0.5 ? "bg-gray-800" : "bg-transparent"
-                                                            }`}
-                                                    />
-                                                ))}
-                                            </div>
-                                        </div>
-                                        <span className="text-[8px] text-gray-600 mt-0.5 font-medium">QR CODE</span>
-                                    </div>
+                                    <QRCodeDisplay value={String(member.id)} size={80} />
                                 </div>
                             </div>
 

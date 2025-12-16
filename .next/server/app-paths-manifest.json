@@ -1,9 +1,0 @@
-{
-  "/page": "app/page.js",
-  "/minha-area/page": "app/minha-area/page.js",
-  "/admin/page": "app/admin/page.js",
-  "/admin/configuracoes/page": "app/admin/configuracoes/page.js",
-  "/_not-found/page": "app/_not-found/page.js",
-  "/checkout/page": "app/checkout/page.js",
-  "/rede-credenciada/page": "app/rede-credenciada/page.js"
-}
