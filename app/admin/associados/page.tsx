@@ -1,4 +1,4 @@
-import { Search, Filter, MoreHorizontal, Eye } from "lucide-react";
+import { Search, MoreHorizontal, Eye } from "lucide-react";
 import Button from "@/components/ui/Button";
 // import Input from "@/components/ui/Input"; // Replaced by SearchInput
 import SearchInput from "./search-input";
@@ -12,13 +12,20 @@ import {
 } from "@/components/admin-ui/table";
 import { Badge } from "@/components/admin-ui/badge";
 import { createClient } from '@/utils/supabase/server';
+import Link from "next/link";
 
-export default async function AssociadosPage() {
+export default async function AssociadosPage({ searchParams }: { searchParams?: { status?: string } }) {
     const supabase = createClient();
-    const { data: members, error } = await supabase
-        .from('members')
-        .select('*')
-        .order('created_at', { ascending: false });
+    const statusFilter = (searchParams?.status || 'all') as 'all' | 'active' | 'inactive';
+
+    let query = supabase.from('members').select('*').order('created_at', { ascending: false });
+    if (statusFilter === 'active') {
+        query = query.eq('status', 'active');
+    } else if (statusFilter === 'inactive') {
+        query = query.eq('status', 'inactive');
+    }
+
+    const { data: members, error } = await query;
 
     if (error) {
         console.error("Error fetching members:", error);
@@ -66,10 +73,38 @@ export default async function AssociadosPage() {
                         className="pl-10"
                     />
                 </div>
-                <Button variant="flat" className="gap-2">
-                    <Filter className="w-4 h-4" />
-                    Filtros
-                </Button>
+                <div className="flex items-center gap-2">
+                    <Link href="/admin/associados">
+                        <Button
+                            variant="flat"
+                            className={statusFilter === 'all'
+                                ? "bg-brand-blue text-white hover:bg-brand-blue/90"
+                                : "border-2 border-brand-blue text-brand-blue hover:bg-brand-blue/10"}
+                        >
+                            Todos
+                        </Button>
+                    </Link>
+                    <Link href="/admin/associados?status=active">
+                        <Button
+                            variant="flat"
+                            className={statusFilter === 'active'
+                                ? "bg-brand-blue text-white hover:bg-brand-blue/90"
+                                : "border-2 border-brand-blue text-brand-blue hover:bg-brand-blue/10"}
+                        >
+                            Ativos
+                        </Button>
+                    </Link>
+                    <Link href="/admin/associados?status=inactive">
+                        <Button
+                            variant="flat"
+                            className={statusFilter === 'inactive'
+                                ? "bg-brand-blue text-white hover:bg-brand-blue/90"
+                                : "border-2 border-brand-blue text-brand-blue hover:bg-brand-blue/10"}
+                        >
+                            Inativos
+                        </Button>
+                    </Link>
+                </div>
             </div>
 
             {/* Table */}

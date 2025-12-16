@@ -1,6 +1,10 @@
 {
   "/page": "app/page.js",
   "/minha-area/page": "app/minha-area/page.js",
-  "/assinatura/page": "app/assinatura/page.js",
-  "/sign-in/[[...sign-in]]/page": "app/sign-in/[[...sign-in]]/page.js"
+  "/rede-credenciada/page": "app/rede-credenciada/page.js",
+  "/admin/page": "app/admin/page.js",
+  "/admin/configuracoes/page": "app/admin/configuracoes/page.js",
+  "/admin/associados/page": "app/admin/associados/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/admin/pagamentos/page": "app/admin/pagamentos/page.js"
 }

@@ -1,33 +1,54 @@
 'use server';
 
-import { createClient } from '@/utils/supabase/server';
+import { createClient as createSupabaseAdminClient } from '@supabase/supabase-js';
 import { revalidatePath } from 'next/cache';
+import type { Database } from '@/types_db';
+
+const supabaseAdmin = createSupabaseAdminClient<Database>(
+    process.env.NEXT_PUBLIC_SUPABASE_URL || '',
+    process.env.SUPABASE_SERVICE_ROLE_KEY || ''
+);
 
 export async function addAdmin(formData: FormData) {
     const email = formData.get('email') as string;
     if (!email) return;
+    const role = (formData.get('role') as string) || 'Admin';
 
-    const supabase = createClient();
-    const { error } = await supabase.from('admin_users').insert({
+    const { error } = await supabaseAdmin.from('admin_users').insert({
         email,
-        role: 'Admin'
+        role
     });
 
     if (error) {
         console.error('Error adding admin:', error);
-        throw new Error('Falha ao adicionar administrador');
+        // Se for e-mail duplicado, apenas revalida sem quebrar
+        if (!/duplicate key|unique constraint/i.test(error.message)) {
+            throw new Error('Falha ao adicionar administrador');
+        }
     }
 
     revalidatePath('/admin/configuracoes');
 }
 
 export async function removeAdmin(id: string) {
-    const supabase = createClient();
-    const { error } = await supabase.from('admin_users').delete().eq('id', id);
+    const { error } = await supabaseAdmin.from('admin_users').delete().eq('id', id);
 
     if (error) {
         console.error('Error removing admin:', error);
         throw new Error('Falha ao remover administrador');
+    }
+
+    revalidatePath('/admin/configuracoes');
+}
+
+export async function updateSystemConfig(key: string, value: boolean) {
+    const { error } = await supabaseAdmin
+        .from('app_config')
+        .upsert([{ key, value }], { onConflict: 'key' });
+
+    if (error) {
+        console.error('Error updating config:', error);
+        throw new Error('Falha ao atualizar configuração');
     }
 
     revalidatePath('/admin/configuracoes');

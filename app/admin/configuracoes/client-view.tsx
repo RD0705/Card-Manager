@@ -2,7 +2,7 @@
 
 import { UserPlus, Trash2, Shield, AlertTriangle } from "lucide-react";
 import Button from "@/components/ui/Button";
-import Input from "@/components/ui/Input";
+import { Input } from "@/components/admin-ui/input";
 import { Label } from "@/components/admin-ui/label";
 import {
     Table,
@@ -12,11 +12,20 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/admin-ui/table";
-import { addAdmin, removeAdmin } from './actions';
-import { useRef } from 'react';
+import { addAdmin, removeAdmin, updateSystemConfig } from './actions';
+import { useRef, useState, useTransition } from 'react';
 
-export default function SettingsClient({ admins }: { admins: any[] }) {
+export default function SettingsClient({
+    admins,
+    initialConfig,
+}: {
+    admins: any[];
+    initialConfig: { maintenance_mode: boolean; email_notifications: boolean };
+}) {
     const formRef = useRef<HTMLFormElement>(null);
+    const [isPending, startTransition] = useTransition();
+    const [maintenance, setMaintenance] = useState<boolean>(initialConfig.maintenance_mode);
+    const [emailNotif, setEmailNotif] = useState<boolean>(initialConfig.email_notifications);
 
     return (
         <div className="space-y-6">
@@ -45,14 +54,26 @@ export default function SettingsClient({ admins }: { admins: any[] }) {
                     }} ref={formRef} className="space-y-4">
                         <div>
                             <Label htmlFor="email">E-mail do administrador</Label>
-                            <Input
-                                id="email"
-                                name="email"
-                                type="email"
-                                placeholder="novo.admin@empresa.com"
-                                className="mt-1.5"
-                                required
-                            />
+                             <Input
+                                 id="email"
+                                 name="email"
+                                 type="email"
+                                 placeholder="novo.admin@empresa.com"
+                                className="mt-1.5 bg-white text-zinc-900 border border-zinc-200"
+                                 required
+                             />
+                        </div>
+                        <div>
+                            <Label htmlFor="role">Permissão</Label>
+                            <select
+                                id="role"
+                                name="role"
+                                defaultValue="Admin"
+                                className="mt-1.5 h-10 w-full rounded-md border border-zinc-200 bg-white px-3 text-sm text-zinc-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                            >
+                                <option value="Admin">Admin</option>
+                                <option value="Super Admin">Super Admin</option>
+                            </select>
                         </div>
                         <Button className="w-full gap-2 bg-brand-orange text-white hover:bg-brand-orange/90">
                             <UserPlus className="w-4 h-4" />
@@ -83,7 +104,27 @@ export default function SettingsClient({ admins }: { admins: any[] }) {
                                     </p>
                                 </div>
                             </div>
-                            <div className="w-11 h-6 bg-gray-200 rounded-full dark:bg-gray-700"></div>
+                            <button
+                                type="button"
+                                aria-pressed={maintenance}
+                                onClick={() => {
+                                    const next = !maintenance;
+                                    setMaintenance(next);
+                                    startTransition(async () => {
+                                        try {
+                                            await updateSystemConfig('maintenance_mode', next);
+                                        } catch {
+                                            setMaintenance(!next);
+                                        }
+                                    });
+                                }}
+                                className={`w-11 h-6 rounded-full relative transition-colors ${maintenance ? 'bg-brand-blue' : 'bg-gray-200'}`}
+                                disabled={isPending}
+                            >
+                                <span
+                                    className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${maintenance ? 'right-1' : 'left-1'}`}
+                                />
+                            </button>
                         </div>
 
                         <div className="flex items-center justify-between p-4 bg-secondary/50 rounded-xl">
@@ -93,9 +134,27 @@ export default function SettingsClient({ admins }: { admins: any[] }) {
                                     Receber alertas de novos cadastros
                                 </p>
                             </div>
-                            <div className="w-11 h-6 bg-brand-blue rounded-full relative">
-                                <span className="absolute right-1 top-1 w-4 h-4 bg-white rounded-full"></span>
-                            </div>
+                            <button
+                                type="button"
+                                aria-pressed={emailNotif}
+                                onClick={() => {
+                                    const next = !emailNotif;
+                                    setEmailNotif(next);
+                                    startTransition(async () => {
+                                        try {
+                                            await updateSystemConfig('email_notifications', next);
+                                        } catch {
+                                            setEmailNotif(!next);
+                                        }
+                                    });
+                                }}
+                                className={`w-11 h-6 rounded-full relative transition-colors ${emailNotif ? 'bg-brand-blue' : 'bg-gray-200'}`}
+                                disabled={isPending}
+                            >
+                                <span
+                                    className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${emailNotif ? 'right-1' : 'left-1'}`}
+                                />
+                            </button>
                         </div>
                     </div>
                 </div>
