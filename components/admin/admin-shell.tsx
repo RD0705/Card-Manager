@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from 'next/image';
 import { usePathname } from "next/navigation";
 import { UserButton } from "@clerk/nextjs";
 import {
@@ -51,9 +52,13 @@ export default function AdminShell({
                     <div className="p-6 border-b border-sidebar-border">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
-                                <div className="w-10 h-10 rounded-xl bg-sidebar-primary flex items-center justify-center">
-                                    <Shield className="w-6 h-6 text-sidebar-primary-foreground" />
-                                </div>
+                                <Image 
+                                    src="/logo.png" 
+                                    alt="CheckUp Benefícios" 
+                                    width={40} 
+                                    height={40} 
+                                    className="rounded-xl"
+                                />
                                 <div>
                                     <h1 className="font-bold text-sidebar-foreground">CheckUp</h1>
                                     <p className="text-xs text-sidebar-foreground/60">Admin Panel</p>
