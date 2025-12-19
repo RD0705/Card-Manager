@@ -71,11 +71,11 @@ const RedeCredenciada = () => {
             <header className="fixed top-0 left-0 right-0 z-50 bg-card/80 backdrop-blur-lg border-b border-border">
                 <div className="container mx-auto px-4 h-16 flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-2">
-                        <Image 
-                            src="/logo.png" 
-                            alt="CheckUp Benefícios" 
-                            width={40} 
-                            height={40} 
+                        <Image
+                            src="/logo.png"
+                            alt="CheckUp Benefícios"
+                            width={40}
+                            height={40}
                             className="rounded-xl"
                         />
                         <span className="text-xl font-bold text-brand-blue">CheckUp Benefícios</span>
@@ -113,7 +113,7 @@ const RedeCredenciada = () => {
                                     placeholder="Buscar por cidade, especialidade..."
                                     className="pl-10"
                                     value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    onChange={(value) => setSearchTerm(value)}
                                 />
                             </div>
                             <Button variant="outline" className="w-full justify-start gap-2">

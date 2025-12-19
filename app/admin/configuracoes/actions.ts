@@ -2,9 +2,9 @@
 
 import { createClient as createSupabaseAdminClient } from '@supabase/supabase-js';
 import { revalidatePath } from 'next/cache';
-import type { Database } from '@/types_db';
 
-const supabaseAdmin = createSupabaseAdminClient<Database>(
+// Using untyped client because admin_users and app_config tables are not in the generated types
+const supabaseAdmin = createSupabaseAdminClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || '',
     process.env.SUPABASE_SERVICE_ROLE_KEY || ''
 );
@@ -14,7 +14,7 @@ export async function addAdmin(formData: FormData) {
     if (!email) return;
     const role = (formData.get('role') as string) || 'Admin';
 
-    const { error } = await supabaseAdmin.from('admin_users').insert({
+    const { error } = await (supabaseAdmin as any).from('admin_users').insert({
         email,
         role
     });
@@ -31,7 +31,7 @@ export async function addAdmin(formData: FormData) {
 }
 
 export async function removeAdmin(id: string) {
-    const { error } = await supabaseAdmin.from('admin_users').delete().eq('id', id);
+    const { error } = await (supabaseAdmin as any).from('admin_users').delete().eq('id', id);
 
     if (error) {
         console.error('Error removing admin:', error);
@@ -42,7 +42,7 @@ export async function removeAdmin(id: string) {
 }
 
 export async function updateSystemConfig(key: string, value: boolean) {
-    const { error } = await supabaseAdmin
+    const { error } = await (supabaseAdmin as any)
         .from('app_config')
         .upsert([{ key, value }], { onConflict: 'key' });
 

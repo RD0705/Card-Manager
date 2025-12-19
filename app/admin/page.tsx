@@ -43,7 +43,7 @@ export default async function AdminPage() {
 
     // 4. Map Auth Users to Member interface
     const authMembers: Member[] = (authUsers || []).map((user: any) => {
-        const sub = subscriptions?.find((s: any) => s.user_id === user.id);
+        const sub = subscriptions?.find((s: any) => s.user_id === user.id) as any;
 
         // Determine dates based on subscription or creation
         const startDate = sub ? (sub.current_period_start || sub.created_at || sub.created) : (user.created_at || user.created || new Date().toISOString());

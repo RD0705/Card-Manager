@@ -1,7 +1,7 @@
 'use client';
 
 import { UserPlus, Trash2, Shield, AlertTriangle } from "lucide-react";
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/admin-ui/input";
 import { Label } from "@/components/admin-ui/label";
 import {
@@ -54,14 +54,14 @@ export default function SettingsClient({
                     }} ref={formRef} className="space-y-4">
                         <div>
                             <Label htmlFor="email">E-mail do administrador</Label>
-                             <Input
-                                 id="email"
-                                 name="email"
-                                 type="email"
-                                 placeholder="novo.admin@empresa.com"
+                            <Input
+                                id="email"
+                                name="email"
+                                type="email"
+                                placeholder="novo.admin@empresa.com"
                                 className="mt-1.5 bg-white text-zinc-900 border border-zinc-200"
-                                 required
-                             />
+                                required
+                            />
                         </div>
                         <div>
                             <Label htmlFor="role">Permissão</Label>

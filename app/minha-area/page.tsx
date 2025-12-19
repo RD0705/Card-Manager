@@ -75,7 +75,7 @@ export default async function MinhaAreaPage() {
 
   // Fetch member data
   const supabase = createClient();
-  const member = await getMemberByEmail(supabase, email);
+  const member = await getMemberByEmail(supabase as any, email);
 
   // Member not found state
   if (!member) {

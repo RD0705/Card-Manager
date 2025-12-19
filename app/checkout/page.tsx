@@ -1,9 +1,10 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
+import { Suspense } from 'react';
 
-export default function CheckoutPage() {
+function CheckoutContent() {
     const searchParams = useSearchParams();
     // In a real app, we'd use this to pre-select the plan context
     // const plan = searchParams.get('plan'); 
@@ -32,5 +33,17 @@ export default function CheckoutPage() {
                 </Button>
             </div>
         </div>
+    );
+}
+
+export default function CheckoutPage() {
+    return (
+        <Suspense fallback={
+            <div className="container mx-auto px-4 py-20 min-h-screen flex flex-col items-center justify-center">
+                <div className="animate-pulse">Carregando...</div>
+            </div>
+        }>
+            <CheckoutContent />
+        </Suspense>
     );
 }

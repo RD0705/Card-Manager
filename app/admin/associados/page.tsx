@@ -1,5 +1,5 @@
 import { Search, MoreHorizontal, Eye } from "lucide-react";
-import Button from "@/components/ui/Button";
+import { Button } from "@/components/ui/button";
 // import Input from "@/components/ui/Input"; // Replaced by SearchInput
 import SearchInput from "./search-input";
 import {
@@ -76,7 +76,7 @@ export default async function AssociadosPage({ searchParams }: { searchParams?: 
                 <div className="flex items-center gap-2">
                     <Link href="/admin/associados">
                         <Button
-                            variant="flat"
+                            variant="ghost"
                             className={statusFilter === 'all'
                                 ? "bg-brand-blue text-white hover:bg-brand-blue/90"
                                 : "border-2 border-brand-blue text-brand-blue hover:bg-brand-blue/10"}
@@ -86,7 +86,7 @@ export default async function AssociadosPage({ searchParams }: { searchParams?: 
                     </Link>
                     <Link href="/admin/associados?status=active">
                         <Button
-                            variant="flat"
+                            variant="ghost"
                             className={statusFilter === 'active'
                                 ? "bg-brand-blue text-white hover:bg-brand-blue/90"
                                 : "border-2 border-brand-blue text-brand-blue hover:bg-brand-blue/10"}
@@ -96,7 +96,7 @@ export default async function AssociadosPage({ searchParams }: { searchParams?: 
                     </Link>
                     <Link href="/admin/associados?status=inactive">
                         <Button
-                            variant="flat"
+                            variant="ghost"
                             className={statusFilter === 'inactive'
                                 ? "bg-brand-blue text-white hover:bg-brand-blue/90"
                                 : "border-2 border-brand-blue text-brand-blue hover:bg-brand-blue/10"}
@@ -133,7 +133,7 @@ export default async function AssociadosPage({ searchParams }: { searchParams?: 
                                     <TableCell>{getStatusBadge(member.expiration_date)}</TableCell>
                                     <TableCell className="text-right">
                                         <div className="flex items-center justify-end gap-2">
-                                            <Button variant="flat" className="h-8 px-2 text-xs gap-1">
+                                            <Button variant="ghost" className="h-8 px-2 text-xs gap-1">
                                                 <Eye className="w-4 h-4" />
                                                 Ver
                                             </Button>
