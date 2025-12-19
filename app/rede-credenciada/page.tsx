@@ -72,7 +72,7 @@ const RedeCredenciada = () => {
                 <div className="container mx-auto px-4 h-16 flex items-center justify-between">
                     <Link href="/" className="flex items-center gap-2">
                         <Image
-                            src="/logo.png"
+                            src="/Logo.png"
                             alt="CheckUp Benefícios"
                             width={40}
                             height={40}

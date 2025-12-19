@@ -100,7 +100,8 @@ const Pricing = () => {
                 </ul>
 
                 <Button
-                  className={`w-full ${plan.highlighted ? "bg-brand-orange text-white hover:bg-brand-orange/90" : "border-brand-blue text-brand-blue hover:bg-brand-blue/10 border-2"}`}
+                  variant={plan.highlighted ? "default" : "outline"}
+                  className={`w-full ${plan.highlighted ? "bg-brand-orange text-white hover:bg-brand-orange/90" : "border-brand-blue text-brand-blue hover:bg-brand-blue hover:text-white border-2"}`}
                   onClick={() => window.location.href = '/checkout'}
                 >
                   Escolher Plano

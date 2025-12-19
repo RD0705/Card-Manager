@@ -52,11 +52,11 @@ export default function AdminShell({
                     <div className="p-6 border-b border-sidebar-border">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
-                                <Image 
-                                    src="/logo.png" 
-                                    alt="CheckUp Benefícios" 
-                                    width={40} 
-                                    height={40} 
+                                <Image
+                                    src="/Logo.png"
+                                    alt="CheckUp Benefícios"
+                                    width={40}
+                                    height={40}
                                     className="rounded-xl"
                                 />
                                 <div>
