@@ -24,8 +24,8 @@ export default function SignInPage() {
 
         try {
             const result = await signIn.create({
-                identifier: email,
-                password,
+                identifier: email.trim(),
+                password: password.trim(),
             });
 
             if (result.status === "complete") {
@@ -37,6 +37,15 @@ export default function SignInPage() {
                 setError("Não foi possível completar o login. Tente novamente.");
             }
         } catch (err: any) {
+            // LOGGING DETALHADO PARA DEBUG
+            console.error("ERRO DETALHADO CLERK:", JSON.stringify(err.errors, null, 2));
+            console.error("ERRO COMPLETO:", err);
+
+            // Exibe alerta para visualização imediata
+            if (err.errors && err.errors[0]) {
+                alert(`Erro do Clerk: ${err.errors[0].code} - ${err.errors[0].message}\n\nDetalhes: ${err.errors[0].longMessage || 'N/A'}`);
+            }
+
             const errorMessage = err.errors?.[0]?.longMessage || err.errors?.[0]?.message || "Erro ao fazer login. Verifique suas credenciais.";
             setError(errorMessage);
         } finally {

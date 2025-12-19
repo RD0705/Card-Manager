@@ -51,7 +51,7 @@ export default function AdminShell({
                     {/* Logo */}
                     <div className="p-6 border-b border-sidebar-border">
                         <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
+                            <Link href="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity">
                                 <Image
                                     src="/Logo.png"
                                     alt="CheckUp Benefícios"
@@ -63,7 +63,7 @@ export default function AdminShell({
                                     <h1 className="font-bold text-sidebar-foreground">CheckUp</h1>
                                     <p className="text-xs text-sidebar-foreground/60">Admin Panel</p>
                                 </div>
-                            </div>
+                            </Link>
                             <button
                                 className="lg:hidden text-sidebar-foreground"
                                 onClick={() => setSidebarOpen(false)}
